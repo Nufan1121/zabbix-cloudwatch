@@ -81,7 +81,6 @@ if __name__ == "__main__":
         instance = dimension.split("=")
         dimensions.append(dict(zip(("Name", "Value"), instance)))
 
-    #default_path = "./cloudwatch_scripts/conf/aws.conf"
     default_path = "/usr/lib/zabbix/externalscripts/cloudwatch_scripts/conf/aws.conf"
     conf_file = args.config if args.config else default_path
     config = configparser.ConfigParser()
