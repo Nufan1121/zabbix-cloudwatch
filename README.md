@@ -3,7 +3,14 @@ Cloudwatch integration for Zabbix 4.x
 
 **Rebuilt to work with Zabbix 4.x, Python 3.6.x and Docker**
 
-Python 3.6.x
+##Prerequesites:
+
+..*Docker hosted Zabbix 4.x
+..*Boto3
+..*Pip3
+..*Python 3.6.x
+
+Guide
 
 1. Create specialized user account(s) in AWS and grant it permissions for required services and API calls (for example `describe_instances()` for EC2)
 2. Clone github repo: https://github.com/Nufan1121/zabbix-cloudwatch.git
