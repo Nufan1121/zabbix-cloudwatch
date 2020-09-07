@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from aws_client import AWSClient
+from discovery.aws_client import AWSClient
 import json
 
 
