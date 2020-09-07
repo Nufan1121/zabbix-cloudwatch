@@ -9,8 +9,8 @@
     </groups>
     <templates>
         <template>
-            <template>Cloudwatch Template</template>
-            <name>Cloudwatch Template</name>
+            <template>Cloudwatch Template v2</template>
+            <name>Cloudwatch Template v2</name>
             <description/>
             <groups>
                 <group>
@@ -82,7 +82,7 @@
                             <type>10</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>cloudwatch.metric[600,CPUUtilization,AWS/EC2,Average,{$REGION},InstanceId={#INSTANCE_ID},{$ACCOUNT}]</key>
+                            <key>cloudwatch.metric["--i", "600","--m", "CPUUtilization","--n", "AWS/EC2","--s", "Average","--r", "{$REGION}","--dimension", "InstanceId={#INSTANCE_ID}","--a", "{$ACCOUNT}"]</key>
                             <delay>600</delay>
                             <history>90d</history>
                             <trends>365d</trends>
@@ -124,7 +124,7 @@
                             <type>10</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>cloudwatch.metric[600,StatusCheckFailed_Instance,AWS/EC2,Maximum,{$REGION},InstanceId={#INSTANCE_ID},{$ACCOUNT}]</key>
+                            <key>cloudwatch.metric["--i", "600","--m", "StatusCheckFailed_Instance","--n", "AWS/EC2","--s", "Maximum","--r", "{$REGION}","--dimension", "InstanceId={#INSTANCE_ID}","--a", "{$ACCOUNT}"]</key>
                             <delay>300</delay>
                             <history>90d</history>
                             <trends>365d</trends>
@@ -166,7 +166,7 @@
                             <type>10</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>cloudwatch.metric[600,StatusCheckFailed_System,AWS/EC2,Maximum,{$REGION},InstanceId={#INSTANCE_ID},{$ACCOUNT}]</key>
+                            <key>cloudwatch.metric["--i", "600","--m", "StatusCheckFailed_System","--n", "AWS/EC2","--s", "Maximum","--r", "{$REGION}","--dimension", "InstanceId={#INSTANCE_ID}","--a", "{$ACCOUNT}"]</key>
                             <delay>600</delay>
                             <history>90d</history>
                             <trends>365d</trends>
@@ -206,7 +206,7 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:cloudwatch.metric[600,StatusCheckFailed_System,AWS/EC2,Maximum,{$REGION},InstanceId={#INSTANCE_ID},{$ACCOUNT}].last()}&gt;0</expression>
+                            <expression>{Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "StatusCheckFailed_System","--n", "AWS/EC2","--s", "Maximum","--r", "{$REGION}","--dimension", "InstanceId={#INSTANCE_ID}","--a", "{$ACCOUNT}"].last()}>0</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>EC2: Hypervisor fail on {#NAME}</name>
@@ -222,7 +222,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:cloudwatch.metric[600,StatusCheckFailed_Instance,AWS/EC2,Maximum,{$REGION},InstanceId={#INSTANCE_ID},{$ACCOUNT}].min(#3)}&gt;0</expression>
+                            <expression>{Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "StatusCheckFailed_Instance","--n", "AWS/EC2","--s", "Maximum","--r", "{$REGION}","--dimension", "InstanceId={#INSTANCE_ID}","--a", "{$ACCOUNT}"].min(#3)}>0</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>EC2: Instance fail on {#NAME}</name>
@@ -238,7 +238,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:cloudwatch.metric[600,CPUUtilization,AWS/EC2,Average,{$REGION},InstanceId={#INSTANCE_ID},{$ACCOUNT}].last()}=-1 or {Cloudwatch Template:cloudwatch.metric[600,StatusCheckFailed_System,AWS/EC2,Maximum,{$REGION},InstanceId={#INSTANCE_ID},{$ACCOUNT}].last()}=-1 or {Cloudwatch Template:cloudwatch.metric[600,StatusCheckFailed_Instance,AWS/EC2,Maximum,{$REGION},InstanceId={#INSTANCE_ID},{$ACCOUNT}].last()}=-1</expression>
+                            <expression>{Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "CPUUtilization","--n", "AWS/EC2","--s", "Average","--r", "{$REGION}","--dimension", "InstanceId={#INSTANCE_ID}","--a", "{$ACCOUNT}"].last()}=-1 or {Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "StatusCheckFailed_System","--n", "AWS/EC2","--s", "Maximum","--r", "{$REGION}","--dimension", "InstanceId={#INSTANCE_ID}","--a", "{$ACCOUNT}"].last()}=-1 or {Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "StatusCheckFailed_Instance","--n", "AWS/EC2","--s", "Maximum","--r", "{$REGION}","--dimension", "InstanceId={#INSTANCE_ID}","--a", "{$ACCOUNT}"].last()}=-1</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>EC2: No datapoints for {#NAME}</name>
@@ -255,7 +255,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:cloudwatch.metric[600,CPUUtilization,AWS/EC2,Average,{$REGION},InstanceId={#INSTANCE_ID},{$ACCOUNT}].last()}&gt;80</expression>
+                            <expression>{Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "CPUUtilization","--n", "AWS/EC2","--s", "Average","--r", "{$REGION}","--dimension", "InstanceId={#INSTANCE_ID}","--a", "{$ACCOUNT}"].last()}>80</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>EC2: {#NAME}: High CPU usage</name>
@@ -270,14 +270,14 @@
                             <dependencies>
                                 <dependency>
                                     <name>EC2: {#NAME}: High CPU usage for last 60 min</name>
-                                    <expression>{Cloudwatch Template:cloudwatch.metric[600,CPUUtilization,AWS/EC2,Average,{$REGION},InstanceId={#INSTANCE_ID},{$ACCOUNT}].avg(60m)}&gt;80</expression>
+                                    <expression>{Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "CPUUtilization","--n", "AWS/EC2","--s", "Average","--r", "{$REGION}","--dimension", "InstanceId={#INSTANCE_ID}","--a", "{$ACCOUNT}"].avg(60m)}>80</expression>
                                     <recovery_expression/>
                                 </dependency>
                             </dependencies>
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:cloudwatch.metric[600,CPUUtilization,AWS/EC2,Average,{$REGION},InstanceId={#INSTANCE_ID},{$ACCOUNT}].avg(60m)}&gt;80</expression>
+                            <expression>{Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "CPUUtilization","--n", "AWS/EC2","--s", "Average","--r", "{$REGION}","--dimension", "InstanceId={#INSTANCE_ID}","--a", "{$ACCOUNT}"].avg(60m)}>80</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>EC2: {#NAME}: High CPU usage for last 60 min</name>
@@ -334,7 +334,7 @@
                             <type>10</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>cloudwatch.metric[600,UnHealthyHostCount,AWS/ELB,Maximum,{$REGION},LoadBalancerName={#BALANCER_NAME},{$ACCOUNT}]</key>
+                            <key>cloudwatch.metric["--i", "600","--m", "UnHealthyHostCount","--n", "AWS/ELB","--s", "Maximum","--r", "{$REGION}","--dimension", "LoadBalancerName={#BALANCER_NAME}","--a", "{$ACCOUNT}"]</key>
                             <delay>300</delay>
                             <history>30d</history>
                             <trends>60d</trends>
@@ -416,7 +416,7 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:instances[{#BALANCER_NAME}].last()}=0</expression>
+                            <expression>{Cloudwatch Template v2:instances[{#BALANCER_NAME}].last()}=0</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>ELB: {#BALANCER_NAME} has no active instances</name>
@@ -432,7 +432,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:cloudwatch.metric[600,UnHealthyHostCount,AWS/ELB,Maximum,{$REGION},LoadBalancerName={#BALANCER_NAME},{$ACCOUNT}].min(#3)}&gt;0</expression>
+                            <expression>{Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "UnHealthyHostCount","--n", "AWS/ELB","--s", "Maximum","--r", "{$REGION}","--dimension", "LoadBalancerName={#BALANCER_NAME}","--a", "{$ACCOUNT}"].min(#3)}>0</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>ELB: {#BALANCER_NAME} unhealthy nodes</name>
@@ -491,7 +491,7 @@
                             <type>10</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>cloudwatch.metric[120,UnHealthyHostCount,AWS/ApplicationELB,Maximum,{$REGION},&quot;LoadBalancer={#TARGET_GROUP_LOAD_BALANCER_ARN},TargetGroup={#TARGET_GROUP_ARN}&quot;,{$ACCOUNT}]</key>
+                            <key>cloudwatch.metric["--i", "120","--m", "UnHealthyHostCount","--n", "AWS/ApplicationELB","--s", "Maximum","--r", "{$REGION}","--dimension", "LoadBalancer={#TARGET_GROUP_LOAD_BALANCER_ARN}","TargetGroup={#TARGET_GROUP_ARN}","--a", "{$ACCOUNT}"]</key>
                             <delay>120</delay>
                             <history>30d</history>
                             <trends>60d</trends>
@@ -533,7 +533,7 @@
                             <type>15</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>instances[{#TARGET_GROUP_LOAD_BALANCER_NAME}][{#TARGET_GROUP_NAME}]</key>
+                            <key>instances[{#TARGET_GROUP_LOAD_BALANCER_NAME}-{#TARGET_GROUP_NAME}]</key>
                             <delay>3600</delay>
                             <history>30d</history>
                             <trends>60d</trends>
@@ -573,7 +573,7 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:instances[{#TARGET_GROUP_LOAD_BALANCER_NAME}][{#TARGET_GROUP_NAME}].last()}=-1</expression>
+                            <expression>{Cloudwatch Template v2:instances[{#TARGET_GROUP_LOAD_BALANCER_NAME}-{#TARGET_GROUP_NAME}].last()}=-1</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>ELBv2: No data points for {#TARGET_GROUP_LOAD_BALANCER_NAME} target {#TARGET_GROUP_NAME}</name>
@@ -590,7 +590,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:instances[{#TARGET_GROUP_LOAD_BALANCER_NAME}][{#TARGET_GROUP_NAME}].last()}=0</expression>
+                            <expression>{Cloudwatch Template v2:instances[{#TARGET_GROUP_LOAD_BALANCER_NAME}-{#TARGET_GROUP_NAME}].last()}=0</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>ELBv2: {#TARGET_GROUP_LOAD_BALANCER_NAME} target group {#TARGET_GROUP_NAME} has no active instances</name>
@@ -606,7 +606,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:cloudwatch.metric[120,UnHealthyHostCount,AWS/ApplicationELB,Maximum,{$REGION},&quot;LoadBalancer={#TARGET_GROUP_LOAD_BALANCER_ARN},TargetGroup={#TARGET_GROUP_ARN}&quot;,{$ACCOUNT}].last()}&gt;0</expression>
+                            <expression>{Cloudwatch Template v2:cloudwatch.metric["--i", "120","--m", "UnHealthyHostCount","--n", "AWS/ApplicationELB","--s", "Maximum","--r", "{$REGION}","--dimension", "LoadBalancer={#TARGET_GROUP_LOAD_BALANCER_ARN}","TargetGroup={#TARGET_GROUP_ARN}","--a", "{$ACCOUNT}"].last()}>0</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>ELBv2: {#TARGET_GROUP_LOAD_BALANCER_NAME} target group {#TARGET_GROUP_NAME} unhealthy nodes</name>
@@ -649,8 +649,8 @@
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Cloudwatch Template</host>
-                                        <key>cloudwatch.metric[120,UnHealthyHostCount,AWS/ApplicationELB,Maximum,{$REGION},&quot;LoadBalancer={#TARGET_GROUP_LOAD_BALANCER_ARN},TargetGroup={#TARGET_GROUP_ARN}&quot;,{$ACCOUNT}]</key>
+                                        <host>Cloudwatch Template v2</host>
+                                        <key>cloudwatch.metric["--i", "120","--m", "UnHealthyHostCount","--n", "AWS/ApplicationELB","--s", "Maximum","--r", "{$REGION}","--dimension", "LoadBalancer={#TARGET_GROUP_LOAD_BALANCER_ARN}","TargetGroup={#TARGET_GROUP_ARN}","--a", "{$ACCOUNT}"]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -696,7 +696,7 @@
                             <type>10</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>cloudwatch.metric[600,AppsFailed,AWS/ElasticMapReduce,Average,{$REGION},JobFlowId={#CLUSTER_ID},{$ACCOUNT}]</key>
+                            <key>cloudwatch.metric["--i", "600","--m", "AppsFailed","--n", "AWS/ElasticMapReduce","--s", "Average","--r", "{$REGION}","--dimension", "JobFlowId={#CLUSTER_ID}","--a", "{$ACCOUNT}"]</key>
                             <delay>300</delay>
                             <history>30d</history>
                             <trends>365d</trends>
@@ -738,7 +738,7 @@
                             <type>10</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>cloudwatch.metric[600,HDFSUtilization,AWS/ElasticMapReduce,Average,{$REGION},JobFlowId={#CLUSTER_ID},{$ACCOUNT}]</key>
+                            <key>cloudwatch.metric["--i", "600","--m", "HDFSUtilization","--n", "AWS/ElasticMapReduce","--s", "Average","--r", "{$REGION}","--dimension", "JobFlowId={#CLUSTER_ID}","--a", "{$ACCOUNT}"]</key>
                             <delay>300</delay>
                             <history>30d</history>
                             <trends>365d</trends>
@@ -780,7 +780,7 @@
                             <type>10</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>cloudwatch.metric[600,MRUnhealthyNodes,AWS/ElasticMapReduce,Average,{$REGION},JobFlowId={#CLUSTER_ID},{$ACCOUNT}]</key>
+                            <key>cloudwatch.metric["--i", "600","--m", "MRUnhealthyNodes","--n", "AWS/ElasticMapReduce","--s", "Average","--r", "{$REGION}","--dimension", "JobFlowId={#CLUSTER_ID}","--a", "{$ACCOUNT}"]</key>
                             <delay>300</delay>
                             <history>30d</history>
                             <trends>365d</trends>
@@ -820,7 +820,7 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:cloudwatch.metric[600,MRUnhealthyNodes,AWS/ElasticMapReduce,Average,{$REGION},JobFlowId={#CLUSTER_ID},{$ACCOUNT}].last()}&gt;0</expression>
+                            <expression>{Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "MRUnhealthyNodes","--n", "AWS/ElasticMapReduce","--s", "Average","--r", "{$REGION}","--dimension", "JobFlowId={#CLUSTER_ID}","--a", "{$ACCOUNT}"].last()}>0</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>EMR: Unhealthy nodes in {#CLUSTER_NAME}</name>
@@ -836,7 +836,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>(({TRIGGER.VALUE}=0 and {Cloudwatch Template:cloudwatch.metric[600,AppsFailed,AWS/ElasticMapReduce,Average,{$REGION},JobFlowId={#CLUSTER_ID},{$ACCOUNT}].last()}&gt;0 and {Cloudwatch Template:cloudwatch.metric[600,AppsFailed,AWS/ElasticMapReduce,Average,{$REGION},JobFlowId={#CLUSTER_ID},{$ACCOUNT}].change()}&gt;0) or ({TRIGGER.VALUE}=1 and {Cloudwatch Template:cloudwatch.metric[600,AppsFailed,AWS/ElasticMapReduce,Average,{$REGION},JobFlowId={#CLUSTER_ID},{$ACCOUNT}].delta(#4)}&gt;0))</expression>
+                            <expression>(({TRIGGER.VALUE}=0 and {Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "AppsFailed","--n", "AWS/ElasticMapReduce","--s", "Average","--r", "{$REGION}","--dimension", "JobFlowId={#CLUSTER_ID}","--a", "{$ACCOUNT}"].last()}>0 and {Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "AppsFailed","--n", "AWS/ElasticMapReduce","--s", "Average","--r", "{$REGION}","--dimension", "JobFlowId={#CLUSTER_ID}","--a", "{$ACCOUNT}"].change()}>0) or ({TRIGGER.VALUE}=1 and {Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "AppsFailed","--n", "AWS/ElasticMapReduce","--s", "Average","--r", "{$REGION}","--dimension", "JobFlowId={#CLUSTER_ID}","--a", "{$ACCOUNT}"].delta(#4)}>0))</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>EMR: {#CLUSTER_NAME} has new failed YARN apps</name>
@@ -852,7 +852,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:cloudwatch.metric[600,HDFSUtilization,AWS/ElasticMapReduce,Average,{$REGION},JobFlowId={#CLUSTER_ID},{$ACCOUNT}].last()}=-1 or {Cloudwatch Template:cloudwatch.metric[600,MRUnhealthyNodes,AWS/ElasticMapReduce,Average,{$REGION},JobFlowId={#CLUSTER_ID},{$ACCOUNT}].last()}=-1</expression>
+                            <expression>{Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "HDFSUtilization","--n", "AWS/ElasticMapReduce","--s", "Average","--r", "{$REGION}","--dimension", "JobFlowId={#CLUSTER_ID}","--a", "{$ACCOUNT}"].last()}=-1 or {Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "MRUnhealthyNodes","--n", "AWS/ElasticMapReduce","--s", "Average","--r", "{$REGION}","--dimension", "JobFlowId={#CLUSTER_ID}","--a", "{$ACCOUNT}"].last()}=-1</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>EMR: {#CLUSTER_NAME} has no datapoints</name>
@@ -869,7 +869,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:cloudwatch.metric[600,HDFSUtilization,AWS/ElasticMapReduce,Average,{$REGION},JobFlowId={#CLUSTER_ID},{$ACCOUNT}].avg(#2)}&gt;80</expression>
+                            <expression>{Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "HDFSUtilization","--n", "AWS/ElasticMapReduce","--s", "Average","--r", "{$REGION}","--dimension", "JobFlowId={#CLUSTER_ID}","--a", "{$ACCOUNT}"].avg(#2)}>80</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>EMR: {#CLUSTER_NAME} high HDFS usage</name>
@@ -926,7 +926,7 @@
                             <type>10</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>cloudwatch.metric[600,CPUUtilization,AWS/RDS,Average,{$REGION},DBInstanceIdentifier={#RDS_ID},{$ACCOUNT}]</key>
+                            <key>cloudwatch.metric["--i", "600","--m", "CPUUtilization","--n", "AWS/RDS","--s", "Average","--r", "{$REGION}","--dimension", "DBInstanceIdentifier={#RDS_ID}","--a", "{$ACCOUNT}"]</key>
                             <delay>600</delay>
                             <history>90d</history>
                             <trends>365d</trends>
@@ -968,7 +968,7 @@
                             <type>10</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>cloudwatch.metric[600,FreeStorageSpace,AWS/RDS,Average,{$REGION},DBInstanceIdentifier={#RDS_ID},{$ACCOUNT}]</key>
+                            <key>cloudwatch.metric["--i", "600","--m", "FreeStorageSpace","--n", "AWS/RDS","--s", "Average","--r", "{$REGION}","--dimension", "DBInstanceIdentifier={#RDS_ID}","--a", "{$ACCOUNT}"]</key>
                             <delay>600</delay>
                             <history>90d</history>
                             <trends>365d</trends>
@@ -1025,7 +1025,7 @@
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <params>last(&quot;cloudwatch.metric[600,FreeStorageSpace,AWS/RDS,Average,{$REGION},DBInstanceIdentifier={#RDS_ID},{$ACCOUNT}]&quot;)/({#STORAGE}/100)</params>
+                            <params>last("cloudwatch.metric["--i", "600","--m", "FreeStorageSpace","--n", "AWS/RDS","--s", "Average","--r", "{$REGION}","--dimension", "DBInstanceIdentifier={#RDS_ID}","--a", "{$ACCOUNT}"]")/({#STORAGE}/100)</params>
                             <ipmi_sensor/>
                             <authtype>0</authtype>
                             <username/>
@@ -1050,7 +1050,7 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:cloudwatch.metric[600,CPUUtilization,AWS/RDS,Average,{$REGION},DBInstanceIdentifier={#RDS_ID},{$ACCOUNT}].last()}=-1 or {Cloudwatch Template:cloudwatch.metric[600,FreeStorageSpace,AWS/RDS,Average,{$REGION},DBInstanceIdentifier={#RDS_ID},{$ACCOUNT}].last()}=-1</expression>
+                            <expression>{Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "CPUUtilization","--n", "AWS/RDS","--s", "Average","--r", "{$REGION}","--dimension", "DBInstanceIdentifier={#RDS_ID}","--a", "{$ACCOUNT}"].last()}=-1 or {Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "FreeStorageSpace","--n", "AWS/RDS","--s", "Average","--r", "{$REGION}","--dimension", "DBInstanceIdentifier={#RDS_ID}","--a", "{$ACCOUNT}"].last()}=-1</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>RDS: {#RDS_ID} has no datapoints</name>
@@ -1067,7 +1067,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:cloudwatch.metric[600,CPUUtilization,AWS/RDS,Average,{$REGION},DBInstanceIdentifier={#RDS_ID},{$ACCOUNT}].avg(#2)}&gt;80</expression>
+                            <expression>{Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "CPUUtilization","--n", "AWS/RDS","--s", "Average","--r", "{$REGION}","--dimension", "DBInstanceIdentifier={#RDS_ID}","--a", "{$ACCOUNT}"].avg(#2)}>80</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>RDS: {#RDS_ID} high CPU usage</name>
@@ -1083,7 +1083,7 @@
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:freepercent[{#RDS_ID}].last()}&lt;20</expression>
+                            <expression>{Cloudwatch Template v2:freepercent[{#RDS_ID}].last()}&lt;20</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>RDS: {#RDS_ID} low on space</name>
@@ -1126,8 +1126,8 @@
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Cloudwatch Template</host>
-                                        <key>cloudwatch.metric[600,FreeStorageSpace,AWS/RDS,Average,{$REGION},DBInstanceIdentifier={#RDS_ID},{$ACCOUNT}]</key>
+                                        <host>Cloudwatch Template v2</host>
+                                        <key>cloudwatch.metric["--i", "600","--m", "FreeStorageSpace","--n", "AWS/RDS","--s", "Average","--r", "{$REGION}","--dimension", "DBInstanceIdentifier={#RDS_ID}","--a", "{$ACCOUNT}"]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -1173,7 +1173,7 @@
                             <type>10</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>cloudwatch.metric[600,BucketSizeBytes,AWS/S3,Average,{$REGION},&quot;BucketName={#BUCKET_NAME},StorageType=StandardStorage&quot;,{$ACCOUNT}]</key>
+                            <key>cloudwatch.metric["--i", "600","--m", "BucketSizeBytes","--n", "AWS/S3","--s", "Average","--r", "{$REGION}","--dimension", "BucketName={#BUCKET_NAME}","--a", "{$ACCOUNT}"]</key>
                             <delay>600</delay>
                             <history>90d</history>
                             <trends>365d</trends>
@@ -1215,7 +1215,7 @@
                             <type>10</type>
                             <snmp_community/>
                             <snmp_oid/>
-                            <key>cloudwatch.metric[600,NumberOfObjects,AWS/S3,Average,{$REGION},&quot;BucketName={#BUCKET_NAME},StorageType=AllStorageTypes&quot;,{$ACCOUNT}]</key>
+                            <key>cloudwatch.metric["--i", "600","--m", "NumberOfObjects","--n", "AWS/S3","--s", "Average","--r", "{$REGION}","--dimension", "BucketName={#BUCKET_NAME}","--a", "{$ACCOUNT}"]</key>
                             <delay>600</delay>
                             <history>90d</history>
                             <trends>365d</trends>
@@ -1255,8 +1255,8 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Cloudwatch Template:cloudwatch.metric[600,BucketSizeBytes,AWS/S3,Average,{$REGION},&quot;BucketName={#BUCKET_NAME},StorageType=StandardStorage&quot;,{$ACCOUNT}].last()}=-1 or&#13;
-                                {Cloudwatch Template:cloudwatch.metric[600,NumberOfObjects,AWS/S3,Average,{$REGION},&quot;BucketName={#BUCKET_NAME},StorageType=AllStorageTypes&quot;,{$ACCOUNT}].last()}=-1</expression>
+                            <expression>{Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "BucketSizeBytes","--n", "AWS/S3","--s", "Average","--r", "{$REGION}","--dimension", "BucketName={#BUCKET_NAME}","--a", "{$ACCOUNT}"].last()}=-1 or&#13;
+                                {Cloudwatch Template v2:cloudwatch.metric["--i", "600","--m", "NumberOfObjects","--n", "AWS/S3","--s", "Average","--r", "{$REGION}","--dimension", "BucketName={#BUCKET_NAME}","--a", "{$ACCOUNT}"].last()}=-1</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>S3: {#BUCKET_NAME} has no datapoints</name>
@@ -1300,8 +1300,8 @@
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Cloudwatch Template</host>
-                                        <key>cloudwatch.metric[600,BucketSizeBytes,AWS/S3,Average,{$REGION},&quot;BucketName={#BUCKET_NAME},StorageType=StandardStorage&quot;,{$ACCOUNT}]</key>
+                                        <host>Cloudwatch Template v2</host>
+                                        <key>cloudwatch.metric["--i", "600","--m", "BucketSizeBytes","--n", "AWS/S3","--s", "Average","--r", "{$REGION}","--dimension", "BucketName={#BUCKET_NAME}","--a", "{$ACCOUNT}"]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -1332,8 +1332,8 @@
                                     <calc_fnc>2</calc_fnc>
                                     <type>0</type>
                                     <item>
-                                        <host>Cloudwatch Template</host>
-                                        <key>cloudwatch.metric[600,NumberOfObjects,AWS/S3,Average,{$REGION},&quot;BucketName={#BUCKET_NAME},StorageType=AllStorageTypes&quot;,{$ACCOUNT}]</key>
+                                        <host>Cloudwatch Template v2</host>
+                                        <key>cloudwatch.metric["--i", "600","--m", "NumberOfObjects","--n", "AWS/S3","--s", "Average","--r", "{$REGION}","--dimension", "BucketName={#BUCKET_NAME}","--a", "{$ACCOUNT}"]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
