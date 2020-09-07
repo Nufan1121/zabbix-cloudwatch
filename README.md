@@ -3,12 +3,12 @@ Cloudwatch integration for Zabbix 4.x
 
 **Rebuilt to work with Zabbix 4.x, Python 3.6.x and Docker**
 
-##Prerequesites:
+## Prerequesites:
 
-..*Docker hosted Zabbix 4.x
-..*Boto3
-..*Pip3
-..*Python 3.6.x
+..* Docker hosted Zabbix 4.x
+..* Boto3
+..* Pip3
+..* Python 3.6.x
 
 Guide
 
