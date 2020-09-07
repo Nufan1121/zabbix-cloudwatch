@@ -1,13 +1,13 @@
 #!/usr/bin/python
-from discovery.aws_client import AWSClient
-import ConfigParser
+from cloudwatch_scripts.discovery.aws_client import AWSClient
+import configparser
 import datetime
 import argparse
-
 
 class Checker(AWSClient):
     def get_metric(self, interval, metric, namespace, statistic, dimensions):
         # Constructing timestamps for limiting CloudWatch datapoint list
+        interval = interval
         end_time = datetime.datetime.utcnow()
         start_time = end_time - datetime.timedelta(seconds=interval)
         result = self.client.get_metric_statistics(
@@ -25,7 +25,7 @@ class Checker(AWSClient):
         else:
             ret_val = -1
         if self.debug:
-            print result
+            print (result)
         # This is a dirty hack, because CW returns bytes in float
         # This can be a problem, because RDS instances can be huge
         # and overflow Zabbix DB floating point data type
@@ -80,15 +80,15 @@ if __name__ == "__main__":
         instance = dimension.split("=")
         dimensions.append(dict(zip(("Name", "Value"), instance)))
 
-    default_path = "/usr/lib/zabbix/scripts/conf/aws.conf"
+    default_path = "/usr/lib/zabbix/externalscripts/cloudwatch_scripts/conf/aws.conf"
     conf_file = args.config if args.config else default_path
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     config.readfp(open(conf_file))
     checker = Checker(config, args.account, "cloudwatch", args.region)
     checker.debug = args.debug
 
-    print checker.get_metric(interval=args.interval,
+    print (checker.get_metric(interval=args.interval,
                              metric=args.metric,
                              namespace=args.namespace,
                              statistic=args.statistic,
-                             dimensions=dimensions)
+                             dimensions=dimensions))
