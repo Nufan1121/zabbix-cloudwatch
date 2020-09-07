@@ -1,5 +1,5 @@
 #!/bin/bash
-ZABBIX_HOME=/usr/lib/zabbix/scripts
+ZABBIX_HOME=/usr/lib/zabbix/externalscripts/cloudwatch_scripts/
 cd $ZABBIX_HOME
 if [ $# -gt 3 ]
     then
